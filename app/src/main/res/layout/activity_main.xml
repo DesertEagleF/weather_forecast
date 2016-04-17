@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.deserteaglefe.seventhweek.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_city_text"
+        android:id="@+id/city_text_view"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:id="@+id/weather_imageView"
+        android:layout_below="@id/city_text_view"
+        android:scaleType="center"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_temperature_max_text"
+        android:textSize="20sp"
+        android:id="@+id/temperature_text_view"
+        android:layout_below="@id/weather_imageView"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="wrap_content"
+        android:text="@string/default_weather_text"
+        android:id="@+id/weather_text_view"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/temperature_text_view"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="wrap_content"
+        android:text="@string/default_aqi_text_view"
+        android:id="@+id/air_quality_index"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/weather_text_view"
+        android:layout_centerHorizontal="true"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/line"
+        android:background="@color/black"
+        android:layout_below="@id/air_quality_index"/>
+
+
+    <TextView
+        android:layout_width="@dimen/daily_date_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_0"
+        android:text="@string/default_date_text_view"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_below="@id/line"/>
+
+    <ImageView
+        android:id="@+id/weather_day_0"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/date_0"
+        android:layout_toEndOf="@id/date_0"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_0"/>
+
+    <ImageView
+        android:id="@+id/weather_night_0"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/weather_day_0"
+        android:layout_toEndOf="@id/weather_day_0"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_0"/>
+
+    <TextView
+        android:id="@+id/temperature_min_0"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_min_text"
+        android:textColor="@color/blue"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/date_0"/>
+
+    <TextView
+        android:id="@+id/temperature_max_0"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_max_text"
+        android:textColor="@color/red"
+        android:layout_toLeftOf="@id/temperature_min_0"
+        android:layout_toStartOf="@id/temperature_min_0"
+        android:layout_alignBottom="@id/date_0"/>
+
+    <TextView
+        android:layout_width="@dimen/daily_date_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_1"
+        android:text="@string/default_date_text_view"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_below="@id/date_0"/>
+
+    <ImageView
+        android:id="@+id/weather_day_1"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/date_0"
+        android:layout_toEndOf="@id/date_0"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_1"/>
+
+    <ImageView
+        android:id="@+id/weather_night_1"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/weather_day_1"
+        android:layout_toEndOf="@id/weather_day_1"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_1"/>
+
+    <TextView
+        android:id="@+id/temperature_min_1"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_min_text"
+        android:textColor="@color/blue"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/date_1"/>
+
+    <TextView
+        android:id="@+id/temperature_max_1"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_max_text"
+        android:textColor="@color/red"
+        android:layout_toLeftOf="@id/temperature_min_0"
+        android:layout_toStartOf="@id/temperature_min_0"
+        android:layout_alignBottom="@id/date_1"/>
+
+    <TextView
+        android:layout_width="@dimen/daily_date_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_2"
+        android:text="@string/default_date_text_view"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_below="@id/date_1"/>
+
+    <ImageView
+        android:id="@+id/weather_day_2"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/date_0"
+        android:layout_toEndOf="@id/date_0"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_2"/>
+
+    <ImageView
+        android:id="@+id/weather_night_2"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/weather_day_2"
+        android:layout_toEndOf="@id/weather_day_2"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_2"/>
+
+    <TextView
+        android:id="@+id/temperature_min_2"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_min_text"
+        android:textColor="@color/blue"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/date_2"/>
+
+    <TextView
+        android:id="@+id/temperature_max_2"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_max_text"
+        android:textColor="@color/red"
+        android:layout_toLeftOf="@id/temperature_min_0"
+        android:layout_toStartOf="@id/temperature_min_0"
+        android:layout_alignBottom="@id/date_2"/>
+
+    <TextView
+        android:layout_width="@dimen/daily_date_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_3"
+        android:text="@string/default_date_text_view"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_below="@id/date_2"/>
+
+    <ImageView
+        android:id="@+id/weather_day_3"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/date_0"
+        android:layout_toEndOf="@id/date_0"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_3"/>
+
+    <ImageView
+        android:id="@+id/weather_night_3"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/weather_day_3"
+        android:layout_toEndOf="@id/weather_day_3"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_3"/>
+
+    <TextView
+        android:id="@+id/temperature_min_3"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_min_text"
+        android:textColor="@color/blue"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/date_3"/>
+
+    <TextView
+        android:id="@+id/temperature_max_3"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_max_text"
+        android:textColor="@color/red"
+        android:layout_toLeftOf="@id/temperature_min_0"
+        android:layout_toStartOf="@id/temperature_min_0"
+        android:layout_alignBottom="@id/date_3"/>
+
+    <TextView
+        android:layout_width="@dimen/daily_date_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_4"
+        android:text="@string/default_date_text_view"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_below="@id/date_3"/>
+
+    <ImageView
+        android:id="@+id/weather_day_4"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/date_0"
+        android:layout_toEndOf="@id/date_0"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_4"/>
+
+    <ImageView
+        android:id="@+id/weather_night_4"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/weather_day_4"
+        android:layout_toEndOf="@id/weather_day_4"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_4"/>
+
+    <TextView
+        android:id="@+id/temperature_min_4"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_min_text"
+        android:textColor="@color/blue"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/date_4"/>
+
+    <TextView
+        android:id="@+id/temperature_max_4"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_max_text"
+        android:textColor="@color/red"
+        android:layout_toLeftOf="@id/temperature_min_0"
+        android:layout_toStartOf="@id/temperature_min_0"
+        android:layout_alignBottom="@id/date_4"/>
+
+    <TextView
+        android:layout_width="@dimen/daily_date_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_5"
+        android:text="@string/default_date_text_view"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_below="@id/date_4"/>
+
+    <ImageView
+        android:id="@+id/weather_day_5"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/date_0"
+        android:layout_toEndOf="@id/date_0"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_5"/>
+
+    <ImageView
+        android:id="@+id/weather_night_5"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/weather_day_5"
+        android:layout_toEndOf="@id/weather_day_5"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_5"/>
+
+    <TextView
+        android:id="@+id/temperature_min_5"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_min_text"
+        android:textColor="@color/blue"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/date_5"/>
+
+    <TextView
+        android:id="@+id/temperature_max_5"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_max_text"
+        android:textColor="@color/red"
+        android:layout_toLeftOf="@id/temperature_min_0"
+        android:layout_toStartOf="@id/temperature_min_0"
+        android:layout_alignBottom="@id/date_5"/>
+
+    <TextView
+        android:layout_width="@dimen/daily_date_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_6"
+        android:text="@string/default_date_text_view"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_below="@id/date_5"/>
+
+    <ImageView
+        android:id="@+id/weather_day_6"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/date_0"
+        android:layout_toEndOf="@id/date_0"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_6"/>
+
+    <ImageView
+        android:id="@+id/weather_night_6"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:scaleType="fitCenter"
+        android:layout_toRightOf="@id/weather_day_6"
+        android:layout_toEndOf="@id/weather_day_6"
+        android:layout_marginLeft="@dimen/small_width"
+        android:layout_marginRight="@dimen/small_width"
+        android:layout_alignBottom="@id/date_6"/>
+
+    <TextView
+        android:id="@+id/temperature_min_6"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_min_text"
+        android:textColor="@color/blue"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/date_6"/>
+
+    <TextView
+        android:id="@+id/temperature_max_6"
+        android:layout_width="@dimen/temperature_width"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_temperature_max_text"
+        android:textColor="@color/red"
+        android:layout_toLeftOf="@id/temperature_min_0"
+        android:layout_toStartOf="@id/temperature_min_0"
+        android:layout_alignBottom="@id/date_6"/>
+
+    <Button
+        android:id="@+id/select_city_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_city_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"/>
+
+    <TextView
+        android:id="@+id/status_text_view"
+        android:text="@string/default_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/immediately_refresh"
+        android:text="@string/immediately_refresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

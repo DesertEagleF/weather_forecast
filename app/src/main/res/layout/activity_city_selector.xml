@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              android:theme="@style/SelectorTheme">
+
+    <TextView
+        android:id="@+id/enter_city_tips_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_city_text"/>
+
+    <TextView
+        android:id="@+id/select_province"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_province"
+        android:layout_below="@id/enter_city_tips_text"/>
+
+    <GridView
+        android:id="@+id/grid_view"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:numColumns="5"
+        android:layout_below="@id/select_province">
+    </GridView>
+
+    <TextView
+        android:id="@+id/city_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_city"
+        android:layout_below="@id/grid_view"/>
+
+    <TextView
+        android:id="@+id/city_list_header"
+        android:layout_width="@dimen/one_third"
+        android:layout_height="wrap_content"
+        android:text="@string/city_name"
+        android:gravity="center"
+        android:layout_below="@id/city_tips"/>
+
+    <TextView
+        android:id="@+id/city_list_header_latitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/city_tips"
+        android:text="@string/latitude"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/city_list_header_longitude"
+        android:layout_width="@dimen/one_third"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/city_tips"
+        android:gravity="center"
+        android:text="@string/longitude"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/city_list_header">
+    </ListView>
+
+</RelativeLayout>

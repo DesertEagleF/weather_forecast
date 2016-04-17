@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">天气资讯</string>
+    <string name="default_city_text">城市</string>
+    <string name="select_city_text">获取城市数据中，请稍后……</string>
+    <string name="set_default_city_text">设为默认城市</string>
+    <string name="confirm_city_text">确认</string>
+    <string name="default_weather_text">天气</string>
+    <string name="default_temperature_text">温度</string>
+    <string name="default_today_text_view">今日</string>
+    <string name="default_temperature_min_text">低</string>
+    <string name="default_temperature_max_text">高</string>
+    <string name="default_aqi_text_view">空气质量</string>
+    <string name="default_hour_text_view">时间</string>
+    <string name="default_date_text_view">日期</string>
+    <string name="select_city_button">选择城市</string>
+    <string name="immediately_refresh_button">立即刷新</string>
+    <string name="province_name">省份</string>
+    <string name="city_name">城市</string>
+    <string name="select_province">省份：</string>
+    <string name="select_city">城市：</string>
+    <string name="latitude">纬度</string>
+    <string name="longitude">经度</string>
+    <string name="default_status">加载中…</string>
+</resources>
