@@ -18,6 +18,11 @@ public class Constants {
 
     // Broadcast type
     public static final int MESSAGE_CODE_MAIN_THREAD = 0x00000000;
+    public static final int SERVICE_PREPARE = 0x00000001;
+    public static final int SERVICE_READY = 0x00000002;
+    public static final int FIND_NEAREST_CITY = 0x00000003;
+    public static final int FOUND_YOU = 0x00000004;
+    public static final int QUERY_CITY = 0x00000005;
 
     public static final int REQUEST_CITY_SELECTOR = 0x00000010;
     public static final int AUTO_REFRESH_PERIOD = 3600000; // 刷新周期：1小时
@@ -27,7 +32,11 @@ public class Constants {
     public static final String ORIGINAL_PROVINCE = "original_province";
     public static final String CITY_SELECTED = "city_selected";
     public static final String PROVINCE_SELECTED = "province_selected";
-
+    public static final String LOCATION = "location";
+    public static final String QUERY_PROV_ACTION = "query_prov_action";
+    public static final String PROV_ID = "prov_id";
+    public static final String FOUND_PROV_ACTION = "found_prov_action";
+    public static final String CITY_LIST = "city_list";
 
     // String constants
     public static final String HTTP_URL = "http://apis.baidu.com/heweather/weather/free";

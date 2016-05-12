@@ -1,10 +1,12 @@
 package com.deserteaglefe.seventhweek;
 
 import android.content.AsyncQueryHandler;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +14,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -23,8 +28,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.deserteaglefe.seventhweek.Database.WeatherDatabaseHelper;
 import com.deserteaglefe.seventhweek.GsonDataClass.WeatherData;
+import com.deserteaglefe.seventhweek.service.WeatherService;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -60,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int[] mWeather_night = new int[7];
     private int[] mMaxTemperature = new int[7];
     private int[] mMinTemperature = new int[7];
+
     private TextView mCityTextView;
     private ImageView mWeatherImageView;
     private TextView mTemperatureTextView;
@@ -73,8 +84,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mRefreshButton;
     private Button mCitySelectorButton;
     private TextView mStatusTextView;
+
     private boolean isFirstQuery = true;
     private boolean isFinishQuery = true;
+    private boolean isServiceReady = false;
+    private boolean isLocationReady = false;
+    private boolean isRequireInQueue = false;
 
     // Handler
     private WeatherHandler mWeatherHandler;
@@ -85,11 +100,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private WeatherData mWeatherData;
     private SQLiteDatabase mSqLiteDatabase;
     private String mToastString;
+    private double latitude;
+    private double longitude;
+
+    // 百度定位
+    public LocationClient mLocationClient = null;
+    public BDLocationListener myListener = new MyLocationListener();
+
+    // 小曦相关
+    private Intent mIntent;
+    private WeatherHandler mHandler = new WeatherHandler(this);
+    private Messenger mMessenger;
+    private Messenger mServiceMessenger;
+
+    // ServiceConnection
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mMessenger = new Messenger(service);
+            mServiceMessenger = new Messenger(mHandler);
+            Log.i(Constants.TAG, "set MusicService");
+            Message message = Message.obtain();
+            message.what = Constants.SERVICE_PREPARE;
+            sendMessageToService(message);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+        mLocationClient.registerLocationListener(myListener);    //注册监听函数
+
         setContentView(R.layout.activity_main);
 
         // AppCompatActivity 隐藏标题栏的方法
@@ -98,11 +145,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             actionBar.hide();
         }
 
-        findViews();    // 关联视图
-        init();         // 初始化成员
-        loadData();     // 加载本地缓存数据并刷新
-        setListeners(); // 设置监听器
-        exeQuery();     // 从网络获取数据并刷新
+        servicePrepare(); // 启动服务
+        findViews();      // 关联视图
+        init();           // 初始化成员
+        loadData();       // 加载本地缓存数据并刷新
+        setListeners();   // 设置监听器
+        exeQuery();       // 从网络获取数据并刷新
+        initLocation();   // 初始化定位
+        mLocationClient.start();
+    }
+
+    private void servicePrepare() {
+        // 绑定服务
+        Log.i(Constants.TAG,"Starting Service...");
+        mIntent = new Intent(MainActivity.this, WeatherService.class);
+        bindService(mIntent, mServiceConnection, BIND_AUTO_CREATE);
+        startService(mIntent);
     }
 
     // 初始化成员
@@ -129,6 +187,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 更新视图
         refreshView();
+    }
+
+
+    // 把需要向Service发送的消息发出去
+    private void sendMessageToService(Message message) {
+        try {
+            message.replyTo = mServiceMessenger;
+            mMessenger.send(message);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     // 加载异步查询数据库所返回的结果
@@ -259,10 +328,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mStatusTextView = (TextView) findViewById(R.id.status_text_view);
     }
 
+    public void setServiceReady(){
+        isServiceReady = true;
+        if(isLocationReady){
+            sendLocation();
+        }
+    }
+
+    public void setLocation(String city, int ProvId){
+        mCityString = city;
+        mProvinceId = ProvId;
+        if(isFinishQuery){
+            new RequireNetworkDataTask().execute(mCityString);
+        }
+        else {
+            isRequireInQueue = true;
+        }
+    }
+
+    private void sendLocation() {
+        Location location = new Location(latitude, longitude);
+        mIntent = new Intent(MainActivity.this, WeatherService.class);
+        Message message = Message.obtain();
+        message.what = Constants.FIND_NEAREST_CITY;
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.LOCATION, location);
+        message.setData(bundle);
+        sendMessageToService(message);
+    }
+
     // set Listeners for each Button
     private void setListeners() {
         mRefreshButton.setOnClickListener(this);
         mCitySelectorButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(mServiceConnection);
     }
 
     @Override
@@ -397,6 +501,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mToastString = Constants.getToast(code);
     }
 
+    private void initLocation(){
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
+        );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
+        int span=60000;
+        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
+        option.setOpenGps(true);//可选，默认false,设置是否使用gps
+        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
+        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤gps仿真结果，默认需要
+        mLocationClient.setLocOption(option);
+    }
+
+    public class MyLocationListener implements BDLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            isLocationReady = true;
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            if(isServiceReady){
+                sendLocation();
+            }
+        }
+    }
+
     private static class QueryHandler extends AsyncQueryHandler {
         MainActivity mActivity;
 
@@ -442,6 +572,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     message.what = Constants.MESSAGE_CODE_MAIN_THREAD;
                     sendMessageDelayed(message, Constants.AUTO_REFRESH_PERIOD);
                     break;
+                case Constants.SERVICE_READY:
+                    Log.i(Constants.TAG,"Service Ready");
+                    mainActivity.setServiceReady();
+                    break;
+                case Constants.FOUND_YOU:
+                    mainActivity.setLocation(msg.getData().getString(Constants.CITY_NAME),msg.arg1);
+                    Toast.makeText(mainActivity, "定位成功：" + msg.getData().getString(Constants.CITY_NAME), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -468,6 +605,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mWeatherHandler.sendMessageDelayed(message, Constants.AUTO_REFRESH_PERIOD);
                 isFirstQuery = false;
             }
+
             return code;
         }
 
@@ -480,6 +618,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             refreshView(); // 更新视图
             Toast.makeText(MainActivity.this, mToastString, Toast.LENGTH_SHORT).show();
             mStatusTextView.setText("");
+            if(isRequireInQueue){
+                new RequireNetworkDataTask().execute(mCityString);
+                isRequireInQueue = false;
+            }
         }
 
         // 取消
@@ -495,3 +637,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 }
+
+
+/*
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.BDNotifyListener;//假如用到位置提醒功能，需要import该类
+import com.baidu.location.Poi;
+*/

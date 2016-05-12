@@ -1,5 +1,8 @@
 package com.deserteaglefe.seventhweek.GsonDataClass;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ *
  * Created by zyl on 2016/4/16.
  */
 public class CityData {
@@ -38,7 +42,7 @@ public class CityData {
         this.city_info = city_info;
     }
 
-    public static class CityInfo implements Serializable {
+    public static class CityInfo implements Parcelable, Serializable {
 
         @SerializedName("city")
         private String city;
@@ -54,6 +58,29 @@ public class CityData {
 
         @SerializedName("prov")
         private String prov;
+
+        protected CityInfo(){
+
+        }
+        protected CityInfo(Parcel in) {
+            city = in.readString();
+            id = in.readString();
+            lat = in.readFloat();
+            lon = in.readFloat();
+            prov = in.readString();
+        }
+
+        public static final Creator<CityInfo> CREATOR = new Creator<CityInfo>() {
+            @Override
+            public CityInfo createFromParcel(Parcel in) {
+                return new CityInfo(in);
+            }
+
+            @Override
+            public CityInfo[] newArray(int size) {
+                return new CityInfo[size];
+            }
+        };
 
         public static CityInfo objectFromData(String str) {
 
@@ -103,6 +130,20 @@ public class CityData {
         @Override
         public String toString() {
             return getCity();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(city);
+            dest.writeString(id);
+            dest.writeFloat(lat);
+            dest.writeFloat(lon);
+            dest.writeString(prov);
         }
     }
 }
