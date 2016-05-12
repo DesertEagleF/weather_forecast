@@ -4,7 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
+ * Location(latitude, longitude)
  * Created by zyl on 2016/5/11.
+ * @version 1.0
  */
 public class Location implements Parcelable {
     private double mLatitude;
