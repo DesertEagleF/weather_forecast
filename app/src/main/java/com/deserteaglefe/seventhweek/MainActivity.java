@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView[] mNightWeatherImageView = new ImageView[7];
     private Button mRefreshButton;
     private Button mCitySelectorButton;
+    private Button mRelocateButton;
     private TextView mStatusTextView;
 
     private boolean isFirstQuery = true;
@@ -326,6 +327,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mRefreshButton = (Button) findViewById(R.id.immediately_refresh);
         mCitySelectorButton = (Button) findViewById(R.id.select_city_activity_button);
         mStatusTextView = (TextView) findViewById(R.id.status_text_view);
+        mRelocateButton = (Button) findViewById(R.id.relocate_button);
     }
 
     public void setServiceReady(){
@@ -361,6 +363,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setListeners() {
         mRefreshButton.setOnClickListener(this);
         mCitySelectorButton.setOnClickListener(this);
+        mRelocateButton.setOnClickListener(this);
     }
 
     @Override
@@ -383,6 +386,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     intent.putExtra(Constants.ORIGINAL_CITY, mCityString);
                     intent.putExtra(Constants.ORIGINAL_PROVINCE, mProvinceId);
                     startActivityForResult(intent, Constants.REQUEST_CITY_SELECTOR);
+                    break;
+                case R.id.relocate_button:
+                    mLocationClient.start();
+                    mLocationClient.requestLocation();
+                    Log.i(Constants.TAG, "Relocating");
                     break;
             }
         } else {
@@ -524,6 +532,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(isServiceReady){
                 sendLocation();
             }
+            mLocationClient.stop();
         }
     }
 
@@ -637,13 +646,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 }
-
-
-/*
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.BDNotifyListener;//假如用到位置提醒功能，需要import该类
-import com.baidu.location.Poi;
-*/

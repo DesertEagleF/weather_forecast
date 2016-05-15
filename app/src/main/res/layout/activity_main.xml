@@ -449,15 +449,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"/>
 
-    <TextView
-        android:id="@+id/status_text_view"
-        android:text="@string/default_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/small_margin"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"/>
-
     <Button
         android:id="@+id/immediately_refresh"
         android:text="@string/immediately_refresh_button"
@@ -466,4 +457,21 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/relocate_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/relocate_button_text"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
+
+    <TextView
+        android:id="@+id/status_text_view"
+        android:text="@string/default_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/relocate_button"/>
 </RelativeLayout>
